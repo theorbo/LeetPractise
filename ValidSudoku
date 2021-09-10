@@ -1,0 +1,72 @@
+/* Determine if a 9 x 9 Sudoku board is valid. Only the filled cells need to be validated according to the following rules:
+
+Each row must contain the digits 1-9 without repetition.
+Each column must contain the digits 1-9 without repetition.
+Each of the nine 3 x 3 sub-boxes of the grid must contain the digits 1-9 without repetition.
+Note:
+
+A Sudoku board (partially filled) could be valid but is not necessarily solvable.
+Only the filled cells need to be validated according to the mentioned rules. */
+
+class Solution {
+    public boolean isValidSudoku(char[][] board) {
+        
+        int rows = board.length;
+        int columns = board[0].length;
+        int i,j;
+        
+        //validate rows
+        for(i = 0 ;i < rows; i++){
+            Map<Character, Integer> mp = new HashMap<>();
+            for(j = 0 ;j < columns; j++){
+                char b = board[i][j];
+                if(b !='.'){
+                    if(mp.containsKey(b) || b < '1' || b > '9')
+                        return false;
+                    else{
+                        mp.put(b,1);
+                    }
+                }
+            }
+        }
+        
+        //validating columns
+        for(i = 0 ;i < rows; i++){
+            Map<Character, Integer> mp = new HashMap<>();
+            for(j = 0 ;j < columns; j++){
+                char b = board[j][i];
+                if(b !='.'){
+                    if(mp.containsKey(b) || b < '1' || b > '9')
+                        return false;
+                    else{
+                        mp.put(b,1);
+                    }
+                }
+            }
+        }
+        
+        //Validating Individual boxes
+        int k = 0, l = 0;
+        while(k <= 6){
+            while(l <= 6){
+                Map<Character, Integer> mp = new HashMap<>(); 
+                for(i = 0+k; i < k +3 ; i++){ 
+                    for(j = 0+l; j < l+3; j++){
+                        char b = board[i][j];
+                        if(b !='.'){
+                            if(mp.containsKey(b) || b < '1' || b > '9')
+                                return false;
+                            else
+                                mp.put(b,1);
+                        
+                            }
+                      }
+                }
+               l += 3; 
+            }
+            k += 3;
+            l = 0;
+        } 
+    return true;
+    }
+}
