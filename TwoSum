@@ -1,0 +1,63 @@
+/* Given an array of integers nums and an integer target, return indices of the two numbers such that they add up to target.
+
+You may assume that each input would have exactly one solution, and you may not use the same element twice.
+
+You can return the answer in any order.
+
+ 
+
+Example 1:
+
+Input: nums = [2,7,11,15], target = 9
+Output: [0,1]
+Output: Because nums[0] + nums[1] == 9, we return [0, 1].
+Example 2:
+
+Input: nums = [3,2,4], target = 6
+Output: [1,2]
+Example 3:
+
+Input: nums = [3,3], target = 6
+Output: [0,1] */
+
+class Solution {
+    public int[] twoSum(int[] nums, int target) {
+        
+        Map<Integer, List<Integer>> mp = new HashMap<>();
+        for(int i = 0; i < nums.length; i++){
+            if(mp.containsKey(nums[i])){
+               List<Integer> val = mp.get(nums[i]);
+                val.add(i);
+                mp.put(nums[i], val);
+            } else{
+                List<Integer> val = new ArrayList<>();
+                val.add(i);
+                mp.put(nums[i], val);
+            }  
+        }
+        
+        int[] result = new int[2];
+        
+        for(int i = 0; i < nums.length; i++){
+            int val = nums[i];
+            if(val == target-val){
+                if(mp.get(val).size() >= 2){
+                  List<Integer> pos  = mp.get(val);
+                  result[0] = pos.get(0);
+                  result[1] = pos.get(1); 
+                  break;
+                } 
+            }
+            else{
+                if(mp.containsKey(target-val)){
+                    result[0] = mp.get(val).get(0);
+                    result[1] = mp.get(target-val).get(0);
+                    break;
+                } 
+            }
+        }
+        
+        return result;
+        
+    }
+}
