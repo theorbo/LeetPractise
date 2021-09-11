@@ -1,0 +1,44 @@
+/* 
+Given the head of a linked list, remove the nth node from the end of the list and return its head.
+*/
+
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode() {}
+ *     ListNode(int val) { this.val = val; }
+ *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+ * }
+ */
+class Solution {
+    public ListNode removeNthFromEnd(ListNode head, int n) {
+        if(head.next == null)
+      return null;
+
+    int k = 1;
+    ListNode ahead = head;
+    ListNode current = head;
+    ListNode prev = head;
+    
+    while(k < n && ahead != null){
+      ahead = ahead.next;
+      k++;
+    }
+
+    while(ahead != null && ahead.next != null){
+      prev = current;
+      current = current.next;
+      ahead = ahead.next;
+    }
+
+    //Deleting the root node;
+    if(current == head){
+      return current.next;
+    }
+    prev.next = current.next;
+    return head;
+    }
+
+}
