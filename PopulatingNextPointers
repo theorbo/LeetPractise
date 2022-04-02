@@ -1,0 +1,71 @@
+/* You are given a perfect binary tree where all leaves are on the same level, and every parent has two children. The binary tree has the following definition:
+
+struct Node {
+  int val;
+  Node *left;
+  Node *right;
+  Node *next;
+}
+Populate each next pointer to point to its next right node. If there is no next right node, the next pointer should be set to NULL.
+
+Initially, all next pointers are set to NULL.
+
+https://leetcode.com/explore/interview/card/top-interview-questions-medium/108/trees-and-graphs/789/
+
+*/
+
+/*
+// Definition for a Node.
+class Node {
+    public int val;
+    public Node left;
+    public Node right;
+    public Node next;
+
+    public Node() {}
+    
+    public Node(int _val) {
+        val = _val;
+    }
+
+    public Node(int _val, Node _left, Node _right, Node _next) {
+        val = _val;
+        left = _left;
+        right = _right;
+        next = _next;
+    }
+};
+*/
+
+class Solution {
+    public Node connect(Node root) {
+        if(root == null){
+            return root;
+        }
+        return connectingNodes(root);
+    }
+    
+    private Node connectingNodes(Node root){
+        Queue<Node> queue = new LinkedList<>();
+        queue.add(root);
+        int size = 1;
+        while(size > 0){
+            size = queue.size();
+            while(size > 0){
+             Node node = queue.poll();
+                if(size == 1){
+                   node.next = null; 
+                }else
+             node.next = queue.peek();
+             if(node.left != null)
+                 queue.add(node.left);
+             if(node.right != null)
+                 queue.add(node.right);   
+             size--;   
+            }
+            size = queue.size();
+        }
+        
+        return root;
+    }
+}
