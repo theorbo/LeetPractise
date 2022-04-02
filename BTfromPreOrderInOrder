@@ -1,0 +1,56 @@
+/* Given two integer arrays preorder and inorder where preorder is the preorder traversal of a binary tree and inorder is the inorder traversal of the same tree, construct and return the binary tree.
+
+Input: preorder = [3,9,20,15,7], inorder = [9,3,15,20,7]
+Output: [3,9,20,null,null,15,7]
+
+https://leetcode.com/problems/construct-binary-tree-from-preorder-and-inorder-traversal/solution/
+
+*/
+
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+   int pos = 0;
+   public TreeNode buildTree(int[] preorder, int[] inorder) {
+       pos = 0;
+    return buildTreeRecursive(preorder, inorder, 0, preorder.length-1);
+  }
+
+  public TreeNode buildTreeRecursive(int[] preorder, int[] inorder, int start, int end){
+
+    if(start > end)
+      return null;
+    int ele = preorder[pos++];
+    TreeNode node = new TreeNode(ele);  
+    if(start == end){
+        return node;
+    }    
+    
+    int n = findPos(inorder, ele, start, end);
+    node.left = buildTreeRecursive(preorder, inorder, start, n-1);
+    node.right = buildTreeRecursive(preorder, inorder, n+1, end);
+    return node;
+  }
+  
+  private int findPos(int[] inorder, int ele, int start, int end){
+    for(int i = start; i <= end; i++){
+      if(inorder[i] == ele){
+        return i;
+      }
+    }
+    return -1;
+  }
+}
