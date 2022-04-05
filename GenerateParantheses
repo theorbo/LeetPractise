@@ -1,0 +1,53 @@
+/* Given n pairs of parentheses, write a function to generate all combinations of well-formed parentheses.
+
+Input: n = 3
+Output: ["((()))","(()())","(())()","()(())","()()()"]
+
+https://leetcode.com/explore/interview/card/top-interview-questions-medium/109/backtracking/794/
+
+*/
+
+class Solution {
+    public List<String> generateParenthesis(int n) {
+    results = new ArrayList<>();
+    if(n == 0)
+        return results;
+    getAllParanthesis("(", 2*n); 
+    return results;
+  }
+
+  List<String> results;
+  private void getAllParanthesis(String s, int n){
+    
+    if(s.length() == n){
+      if(isValid(s))
+        results.add(s);
+        return;
+    }
+
+    getAllParanthesis(s+"(", n);
+    getAllParanthesis(s+")", n);
+    
+  }
+  
+  private boolean isValid(String s){
+    
+    Stack<Character> stack  = new Stack<>();
+    int k = 0;
+    
+    while(k <= s.length()-1){
+      char b = s.charAt(k++);
+      if(b == '('){
+        stack.push(b);
+      }else {
+        if(!stack.empty()){
+          stack.pop();
+        }else{
+          return false;
+        }
+      }
+    }
+    return stack.size() <= 0;
+    
+  }
+}
